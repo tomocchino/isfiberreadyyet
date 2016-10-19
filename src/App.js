@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Area,
   AreaChart,
   CartesianGrid,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -54,22 +55,29 @@ const renderTooltipContent = (object) => {
   );
 };
 
-class App extends Component {
-  render() {
-    return (
-      <div className="Container">
+function ProgressBar(props) {
+  return (
+    <div className="ProgressBar">
+      <div style={{width: props.percentage}} />
+    </div>
+  );
+}
+
+function Graph(props) {
+  return (
+    <div className="Graph">
+      <ResponsiveContainer>
         <AreaChart
-          data={processData(this.props.data)}
-          width={800}
-          height={200}
+          data={props.data}
+          height={300}
           stackOffset="expand"
-          margin={{top: 20, right: 30, left: 0, bottom: 0}}>
+          margin={{top: 10, right: 20}}>
           <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="purple" x1="0" y1="0" x2="0" y2="1">
               <stop stopColor="#8884d8" stopOpacity={0.8} offset="0%"/>
               <stop stopColor="#8884d8" stopOpacity={0.2} offset="100%"/>
             </linearGradient>
-            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="green" x1="0" y1="0" x2="0" y2="1">
               <stop stopColor="#82ca9d" stopOpacity={0.8} offset="0%"/>
               <stop stopColor="#82ca9d" stopOpacity={0.2} offset="100%"/>
             </linearGradient>
@@ -78,12 +86,38 @@ class App extends Component {
           <YAxis tickFormatter={toPercent} />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip content={renderTooltipContent} />
-          <Area type='monotone' dataKey='failing' stackId="1" stroke='#8884d8' fill="url(#colorUv)" />
-          <Area type='monotone' dataKey='passing' stackId="1" stroke='#82ca9d' fill="url(#colorPv)" />
+          <Area type='monotone' dataKey='failing' stackId="1" stroke='#8884d8' fill="url(#purple)" />
+          <Area type='monotone' dataKey='passing' stackId="1" stroke='#82ca9d' fill="url(#green)" />
         </AreaChart>
-      </div>
-    );
-  }
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function IsItReady(props) {
+  let subtext = props.decision ?
+    `Holy shit!` :
+    `But it's like ${props.percentage} done though.`;
+  return (
+    <div className="IsItReady">
+      <h1>{props.decision ? 'Yes' : 'No'}</h1>
+      <p>{subtext}</p>
+    </div>
+  );
+}
+
+function App(props) {
+  let data = processData(props.data);
+  let mostRecent = data[data.length - 1];
+  let {passing, total} = mostRecent;
+  let percent = getPercent(passing, total);
+  return (
+    <div className="Container">
+      <IsItReady decision={passing === total} percentage={percent} />
+      <ProgressBar percentage={percent} />
+      <Graph data={data} />
+    </div>
+  );
 }
 
 export default App;

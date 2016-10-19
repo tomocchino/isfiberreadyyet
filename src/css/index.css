@@ -5,6 +5,32 @@ body {
 }
 
 .Container {
-  display: flex;
-  justify-content: center;
+  margin: 50px;
+}
+
+.IsItReady {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.IsItReady h1 {
+  font-size: 100px;
+  text-transform: uppercase;
+}
+
+.Graph {
+  margin: 40px auto 0;
+  height: 200px;
+  width: 100%;
+}
+
+.ProgressBar {
+  border: 1px solid rgb(102, 102, 102);
+  height: 30px;
+}
+
+.ProgressBar > div {
+  height: 30px;
+  background: linear-gradient(90deg, rgba(113, 193, 139, 0.2), rgba(113, 193, 139, 0.6));
+  border-right: 1px solid rgba(113, 193, 139, 1);
 }
