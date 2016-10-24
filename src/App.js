@@ -4,7 +4,6 @@ import {
   AreaChart,
   CartesianGrid,
   ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
@@ -14,51 +13,22 @@ const processData = function(rawData) {
     .replace(/\n$/) // remove trailing newline
     .split('\n')
     .map((string) => {
-      let [hash, date, time, passingString, totalString] = string.split(/\s+|\//);
-      let title = date.split('-').slice(1).join('/');
-      let total = parseInt(totalString, 10);
-      let passing = parseInt(passingString, 10);
-      let failing = total - passing;
-      return {title, failing, passing, total, hash, date, time};
+      let [githash, date, time, passingStr, totalStr] = string.split(/\s+|\//);
+      let label = date.split('-').slice(1).join('/');
+      let total = parseInt(totalStr, 10);
+      let passing = parseInt(passingStr, 10);
+      let percent = ((passing / total) * 100).toFixed(1);
+      return {label, total, passing, percent, githash, date, time};
     });
 }
 
-const toPercent = (decimal, fixed = 0) => {
-  return (decimal * 100).toFixed(fixed) + '%';
-};
-
-const getPercent = (value, total) => {
-  let ratio = total > 0 ? value / total : 0;
-  return toPercent(ratio, 2);
-};
-
-const renderTooltipContent = (object) => {
-  let {payload} = object;
-  let data = payload[0].payload;
-  let total = data.total;
-  let dateArray = data.date.split('-');
-  let date = dateArray.slice(1).concat(dateArray[0]).join('/');
-
-  return (
-    <div className="tooltip">
-      <p className="total">{date} - {total} tests</p>
-      <ul>
-        {
-          payload.map((entry, index) => (
-            <li key={index} style={{color: entry.color}}>
-              {entry.name}: {entry.value} ({getPercent(entry.value, total)})
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  );
-};
-
 function ProgressBar(props) {
+  let data = props.data;
   return (
     <div className="ProgressBar">
-      <div style={{width: props.percentage}} />
+      <div style={{width: data.percent + "%"}}>
+        {`${data.passing} of ${data.total} unit tests passing`}
+      </div>
     </div>
   );
 }
@@ -67,27 +37,11 @@ function Graph(props) {
   return (
     <div className="Graph">
       <ResponsiveContainer>
-        <AreaChart
-          data={props.data}
-          height={300}
-          stackOffset="expand"
-          margin={{top: 10, right: 20}}>
-          <defs>
-            <linearGradient id="purple" x1="0" y1="0" x2="0" y2="1">
-              <stop stopColor="#8884d8" stopOpacity={0.8} offset="0%"/>
-              <stop stopColor="#8884d8" stopOpacity={0.2} offset="100%"/>
-            </linearGradient>
-            <linearGradient id="green" x1="0" y1="0" x2="0" y2="1">
-              <stop stopColor="#82ca9d" stopOpacity={0.8} offset="0%"/>
-              <stop stopColor="#82ca9d" stopOpacity={0.2} offset="100%"/>
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="title" />
-          <YAxis tickFormatter={toPercent} />
+        <AreaChart data={props.data} height={300} margin={{top: 10, right: 20}}>
+          <XAxis dataKey="label" />
+          <YAxis domain={[0,100]} tickFormatter={(num) => num + '%'} />
+          <Area type='monotone' dataKey='percent' stroke='#262626' fill="#000000" isAnimationActive={false} />
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip content={renderTooltipContent} />
-          <Area type='monotone' dataKey='failing' stackId="1" stroke='#8884d8' fill="url(#purple)" />
-          <Area type='monotone' dataKey='passing' stackId="1" stroke='#82ca9d' fill="url(#green)" />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -95,12 +49,14 @@ function Graph(props) {
 }
 
 function IsItReady(props) {
-  let subtext = props.decision ?
+  let data = props.data;
+  let decision = data.passing === data.total;
+  let subtext = decision ?
     `Holy shit!` :
-    `But it's like ${props.percentage} done though.`;
+    `But it's like ${data.percent}% done though.`;
   return (
     <div className="IsItReady">
-      <h1>{props.decision ? 'Yes' : 'No'}</h1>
+      <h1>{decision ? 'Yes' : 'No'}</h1>
       <p>{subtext}</p>
     </div>
   );
@@ -109,12 +65,10 @@ function IsItReady(props) {
 function App(props) {
   let data = processData(props.data);
   let mostRecent = data[data.length - 1];
-  let {passing, total} = mostRecent;
-  let percent = getPercent(passing, total);
   return (
     <div className="Container">
-      <IsItReady decision={passing === total} percentage={percent} />
-      <ProgressBar percentage={percent} />
+      <ProgressBar data={mostRecent} />
+      <IsItReady data={mostRecent} />
       <Graph data={data} />
     </div>
   );
