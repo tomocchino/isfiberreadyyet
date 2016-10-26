@@ -37,7 +37,7 @@ function Graph(props) {
   return (
     <div className="Graph">
       <ResponsiveContainer>
-        <AreaChart data={props.data} height={300} margin={{top: 10, right: 20}}>
+        <AreaChart data={props.data} height={300} margin={{top: 10, right: 10}}>
           <XAxis dataKey="label" />
           <YAxis domain={[0,100]} tickFormatter={(num) => num + '%'} />
           <Area type='monotone' dataKey='percent' stroke='#262626' fill="#000000" isAnimationActive={false} />
