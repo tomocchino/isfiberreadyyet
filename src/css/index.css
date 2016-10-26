@@ -1,6 +1,4 @@
 body {
-  margin: 0;
-  padding: 0;
   font-family: sans-serif;
   font-size: 14px;
 }
@@ -15,36 +13,36 @@ body {
 }
 
 .IsItReady h1 {
+  color: #262626;
   font-size: 150px;
   font-weight: bold;
-  color: #262626;
   text-transform: uppercase;
 }
 
 .Graph {
   height: 200px;
-  width: 100%;
   margin-left: -10px;
+  width: 100%;
 }
 
 .ProgressBar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
   background: white;
   border-bottom: 1px solid #262626;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .ProgressBar > div {
-  line-height: 30px;
-  text-indent: 10px;
-  color: #fff;
   background: #666;
+  color: #fff;
   height: 30px;
+  line-height: 30px;
   overflow: hidden;
-  white-space: nowrap;
+  text-indent: 10px;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
