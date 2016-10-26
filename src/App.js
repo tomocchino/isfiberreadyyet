@@ -33,21 +33,6 @@ function ProgressBar(props) {
   );
 }
 
-function Graph(props) {
-  return (
-    <div className="Graph">
-      <ResponsiveContainer>
-        <AreaChart data={props.data} height={300} margin={{top: 10, right: 10}}>
-          <XAxis dataKey="label" />
-          <YAxis domain={[0,100]} tickFormatter={(num) => num + '%'} />
-          <Area type='monotone' dataKey='percent' stroke='#262626' fill="#000000" isAnimationActive={false} />
-          <CartesianGrid strokeDasharray="3 3" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
-
 function IsItReady(props) {
   let data = props.data;
   let decision = data.passing === data.total;
@@ -60,6 +45,21 @@ function IsItReady(props) {
       <a href="https://github.com/facebook/react/issues/7925" target="_blank">
         {subtext}
       </a>
+    </div>
+  );
+}
+
+function Graph(props) {
+  return (
+    <div className="Graph">
+      <ResponsiveContainer>
+        <AreaChart data={props.data} height={300} margin={{top: 10, right: 10}}>
+          <XAxis dataKey="label" />
+          <YAxis domain={[0,100]} tickFormatter={(num) => num + '%'} />
+          <Area type='monotone' dataKey='percent' stroke='#262626' fill="#000000" isAnimationActive={false} />
+          <CartesianGrid strokeDasharray="3 3" />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
 }
