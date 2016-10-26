@@ -53,7 +53,7 @@ function IsItReady(props) {
   let decision = data.passing === data.total;
   let subtext = decision ?
     `Holy shit!` :
-    `But it's like ${data.percent}% done though.`;
+    `It's like ${data.percent}% done, though.`;
   return (
     <div className="IsItReady">
       <h1>{decision ? 'Yes' : 'No'}</h1>
