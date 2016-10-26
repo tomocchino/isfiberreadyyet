@@ -57,7 +57,9 @@ function IsItReady(props) {
   return (
     <div className="IsItReady">
       <h1>{decision ? 'Yes' : 'No'}</h1>
-      <p>{subtext}</p>
+      <a href="https://github.com/facebook/react/issues/7925" target="_blank">
+        {subtext}
+      </a>
     </div>
   );
 }

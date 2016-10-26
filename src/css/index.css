@@ -19,6 +19,11 @@ body {
   text-transform: uppercase;
 }
 
+.IsItReady a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .Graph {
   height: 200px;
   margin-left: -10px;
