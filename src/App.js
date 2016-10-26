@@ -9,17 +9,14 @@ import {
 } from 'recharts';
 
 const processData = function(rawData) {
-  return rawData
-    .replace(/\n$/) // remove trailing newline
-    .split('\n')
-    .map((string) => {
-      let [githash, date, time, passingStr, totalStr] = string.split(/\s+|\//);
-      let label = date.split('-').slice(1).join('/');
-      let total = parseInt(totalStr, 10);
-      let passing = parseInt(passingStr, 10);
-      let percent = ((passing / total) * 100).toFixed(1);
-      return {label, total, passing, percent, githash, date, time};
-    });
+  return rawData.trim().split('\n').map((string) => {
+    let [githash, date, time, passingStr, totalStr] = string.split(/\s+|\//);
+    let label = date.split('-').slice(1).join('/');
+    let total = parseInt(totalStr, 10);
+    let passing = parseInt(passingStr, 10);
+    let percent = ((passing / total) * 100).toFixed(1);
+    return {label, total, passing, percent, githash, date, time};
+  });
 }
 
 function ProgressBar(props) {
