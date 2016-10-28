@@ -1,21 +1,23 @@
 import React from 'react';
 import {
-  Area,
-  AreaChart,
   CartesianGrid,
+  Dot,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
 } from 'recharts';
 
 const processData = function(rawData) {
   return rawData.trim().split('\n').map((string) => {
-    let [githash, date, time, passingStr, totalStr] = string.split(/\s+|\//);
-    let label = date.split('-').slice(1).join('/');
+    let [githash, date, passingStr, totalStr] = string.split(/\t|\//);
+    let timestamp = new Date(date).getTime();
+    let label = date.split(' ')[0].split('-').slice(1).join('/');
     let total = parseInt(totalStr, 10);
     let passing = parseInt(passingStr, 10);
-    let percent = ((passing / total) * 100).toFixed(1);
-    return {label, total, passing, percent, githash, date, time};
+    let percent = parseFloat(((passing / total) * 100).toFixed(1), 10);
+    return {label, total, passing, percent, githash, date, timestamp};
   });
 }
 
@@ -50,12 +52,12 @@ function Graph(props) {
   return (
     <div className="Graph">
       <ResponsiveContainer>
-        <AreaChart data={props.data} height={300} margin={{top: 10, right: 10}}>
-          <XAxis dataKey="label" />
-          <YAxis domain={[0,100]} tickFormatter={(num) => num + '%'} />
-          <Area type='monotone' dataKey='percent' stroke='#262626' fill="#000000" isAnimationActive={false} />
+        <ScatterChart data={props.data} height={300} margin={{top: 10, right: 10}}>
           <CartesianGrid strokeDasharray="3 3" />
-        </AreaChart>
+          <XAxis dataKey="timestamp" domain={['dataMin', 'dataMax']} tickCount={0} />
+          <YAxis dataKey="percent" domain={[0,100]} tickFormatter={(num) => num + '%'} />
+          <Scatter data={props.data} line={true} shape={<Dot r={2} />} isAnimationActive={false} fill="#000000" />
+        </ScatterChart>
       </ResponsiveContainer>
     </div>
   );
