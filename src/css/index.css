@@ -51,3 +51,16 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.Dot {
+  opacity: 0;
+  stroke-width: 2;
+  stroke: #262626;
+}
+
+/* Will add this back once I add tooltips */
+/*
+.Dot:hover {
+  opacity: 1;
+}
+*/

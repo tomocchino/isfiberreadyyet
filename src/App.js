@@ -2,6 +2,7 @@ import React from 'react';
 import {
   CartesianGrid,
   Dot,
+  Line,
   ResponsiveContainer,
   Scatter,
   ScatterChart,
@@ -9,7 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 
-const processData = function(rawData) {
+function processData(rawData) {
   return rawData.trim().split('\n').map((string) => {
     let [githash, date, passingStr, totalStr] = string.split(/\t|\//);
     let timestamp = new Date(date).getTime();
@@ -56,7 +57,19 @@ function Graph(props) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="timestamp" domain={['dataMin', 'dataMax']} tickCount={0} />
           <YAxis dataKey="percent" domain={[0,100]} tickFormatter={(num) => num + '%'} />
-          <Scatter data={props.data} line={true} shape={<Dot r={2} />} isAnimationActive={false} fill="#000000" />
+          <Scatter
+            data={props.data}
+            shape={<Dot r={5} className="Dot" />}
+            isAnimationActive={false}
+            line={
+              <Line
+                dot={false}
+                type="basis"
+                dataKey="percent"
+                isAnimationActive={false}
+                style={{stroke: "#666", strokeWidth: 3}}
+              />
+          }/>
         </ScatterChart>
       </ResponsiveContainer>
     </div>
