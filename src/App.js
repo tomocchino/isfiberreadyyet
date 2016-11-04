@@ -76,6 +76,41 @@ function Graph(props) {
   );
 }
 
+function HeatMap(props) {
+  let groups = {};
+  let groupsList = (
+    props.passingTests.replace(/\n\*/g, "\n+") + "\n\n" +
+    props.failingTests.replace(/\n\*/g, "\n-")
+  ).trim().split("\n\n");
+
+  for (var ii = 0; ii < groupsList.length; ii++) {
+    let group = groupsList[ii].split("\n");
+    let file = group[0];
+    let tests = group.slice(1);
+    if (!groups[file]) { groups[file] = []; }
+    groups[file] = groups[file].concat(tests).sort((line1, line2) => {
+      return line1.slice(2) < line2.slice(2) ? -1 : 1;
+    });
+  }
+
+  let index = 0;
+  let items = [];
+  Object.keys(groups).forEach((file) => {
+    items = items.concat(groups[file].map((test) => {
+      let passfail = test.slice(0, 1) === '+' ? 'passing' : 'failing';
+      return (
+        <li
+          key={index++}
+          className={"UnitTest " + passfail}
+          title={file + ": " + passfail + "\n\n" + test.slice(2)}
+        />
+      );
+    }));
+  });
+
+  return <ul className="HeatMap">{items}</ul>;
+}
+
 function App(props) {
   let data = processData(props.data);
   let mostRecent = data[data.length - 1];
@@ -84,6 +119,7 @@ function App(props) {
       <ProgressBar data={mostRecent} />
       <IsItReady data={mostRecent} />
       <Graph data={data} />
+      <HeatMap failingTests={props.failingTests} passingTests={props.passingTests} />
     </div>
   );
 }

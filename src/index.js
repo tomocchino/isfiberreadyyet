@@ -5,14 +5,18 @@ import App from './App';
 import './css/reset.css';
 import './css/index.css';
 
-// https://raw.githubusercontent.com/facebook/react/master/scripts/fiber/tests-failing.txt
-// https://raw.githubusercontent.com/facebook/react/master/scripts/fiber/tests-passing.txt
+let root = 'https://raw.githubusercontent.com/facebook/react/';
+let urls = [
+  'facts/fiber-tests.txt',
+  'master/scripts/fiber/tests-failing.txt',
+  'master/scripts/fiber/tests-passing.txt'
+];
 
-fetch('https://raw.githubusercontent.com/facebook/react/facts/fiber-tests.txt')
-.then(response => response.text())
-.then((data) => {
+Promise.all(urls.map(url => fetch(root + url).then(resp => resp.text())))
+.then(function(values) {
+  let [data, failingTests, passingTests] = values;
   ReactDOM.render(
-    <App data={data} />,
+    <App data={data} failingTests={failingTests} passingTests={passingTests} />,
     document.getElementById('root')
   );
 });
