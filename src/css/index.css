@@ -74,6 +74,11 @@ body {
 }
 */
 
+.HeatMap {
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
 .Test {
   border: 1px solid #fff;
   cursor: default;

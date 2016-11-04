@@ -100,12 +100,14 @@ function HeatMap(props) {
       let filename = file.replace(/^src\//, '').replace('/__tests__/', "\n→ ");
       let testname = test.slice(2);
       let passfail = test.slice(0, 1) === '+' ? "\u2705 passing" : "\u274C failing";
+      let className = "Test " + passfail;
       let title = `→ ${filename} \n→ ${testname} \n\n${passfail}`;
-      return <li key={index++} className={"Test " + passfail} title={title} />;
+      let href = 'https://github.com/facebook/react/blob/master/' + file;
+      return <a key={index++} className={className} href={href} title={title} target="_blank" />;
     }));
   });
 
-  return <ul className="HeatMap">{items}</ul>;
+  return <div className="HeatMap">{items}</div>;
 }
 
 function App(props) {
