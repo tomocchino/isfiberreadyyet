@@ -74,7 +74,7 @@ body {
 }
 */
 
-.UnitTest {
+.Test {
   border: 1px solid #fff;
   cursor: default;
   display: block;
@@ -85,14 +85,14 @@ body {
   width: 10px;
 }
 
-.UnitTest.passing {
+.Test.passing {
   background: #8EC56A;
 }
 
-.UnitTest.failing {
+.Test.failing {
   background: #eee;
 }
 
-.UnitTest:hover {
+.Test:hover {
   border-color: #262626;
 }

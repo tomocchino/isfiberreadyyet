@@ -97,14 +97,11 @@ function HeatMap(props) {
   let items = [];
   Object.keys(groups).forEach((file) => {
     items = items.concat(groups[file].map((test) => {
-      let passfail = test.slice(0, 1) === '+' ? 'passing' : 'failing';
-      return (
-        <li
-          key={index++}
-          className={"UnitTest " + passfail}
-          title={file + ": " + passfail + "\n\n" + test.slice(2)}
-        />
-      );
+      let filename = file.replace(/^src\//, '').replace('/__tests__/', "\n→ ");
+      let testname = test.slice(2);
+      let passfail = test.slice(0, 1) === '+' ? "\u2705 passing" : "\u274C failing";
+      let title = `→ ${filename} \n→ ${testname} \n\n${passfail}`;
+      return <li key={index++} className={"Test " + passfail} title={title} />;
     }));
   });
 
