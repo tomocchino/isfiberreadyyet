@@ -12,9 +12,11 @@ let urls = [
   'master/scripts/fiber/tests-passing.txt'
 ];
 
-Promise.all(urls.map(url => fetch(root + url).then(resp => resp.text())))
-.then(function(values) {
-  let [data, failingTests, passingTests] = values;
+Promise.all(
+  urls.map(
+    url => fetch(root + url).then(resp => resp.text())
+  )
+).then(([data, failingTests, passingTests]) => {
   ReactDOM.render(
     <App data={data} failingTests={failingTests} passingTests={passingTests} />,
     document.getElementById('root')
