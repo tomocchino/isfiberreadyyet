@@ -75,8 +75,13 @@ body {
 */
 
 .HeatMap {
-  overflow: hidden;
   margin-bottom: 40px;
+}
+
+.HeatMap:after {
+  clear: both;
+  content: " ";
+  display: table;
 }
 
 .Test {
@@ -85,7 +90,7 @@ body {
   display: block;
   float: left;
   height: 10px;
-  overflow: hidden;
+  position: relative;
   text-align: center;
   width: 10px;
 }
@@ -100,4 +105,45 @@ body {
 
 .Test:hover {
   border-color: #262626;
+}
+
+.Test:hover .Tooltip {
+  display: block;
+}
+
+.Tooltip {
+  display: none;
+}
+
+.Tooltip span {
+  pointer-events: none;
+  position: absolute;
+  margin-bottom: 29px;
+  bottom: -100%;
+  left: -11px;
+  text-align: left;
+  z-index: 2;
+  width: 300px;
+  white-space: pre-wrap;
+  background: #262626;
+  color: white;
+  padding: 5px;
+}
+
+.Tooltip:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -9px;
+  width: 10px;
+  background: #262626;
+  height: 10px;
+  transform: rotate(-45deg);
+  margin-top: -5px;
+  z-index: 1;
+  left: 0px;
+}
+
+.flip .Tooltip span {
+  left: -289px;
 }

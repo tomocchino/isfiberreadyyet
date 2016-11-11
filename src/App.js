@@ -10,6 +10,12 @@ import {
   YAxis,
 } from 'recharts';
 
+function handleMouseOver(event) {
+  event.clientX > document.documentElement.clientWidth / 2 ?
+    document.body.classList.add('flip') :
+    document.body.classList.remove('flip');
+}
+
 function processData(rawData) {
   return rawData.trim().split('\n').map((string) => {
     let [githash, date, passingStr, totalStr] = string.split(/\t|\//);
@@ -101,13 +107,19 @@ function HeatMap(props) {
       let testname = test.slice(2);
       let passfail = test.slice(0, 1) === '+' ? "\u2705 passing" : "\u274C failing";
       let className = "Test " + passfail;
-      let title = `→ ${filename} \n→ ${testname} \n\n${passfail}`;
+      let tooltip = `→ ${filename} \n→ ${testname} \n\n${passfail}`;
       let href = 'https://github.com/facebook/react/blob/master/' + file;
-      return <a key={index++} className={className} href={href} title={title} target="_blank" />;
+      return (
+        <a key={index++} className={className} href={href} target="_blank">
+          <span className="Tooltip">
+            <span>{tooltip}</span>
+          </span>
+        </a>
+      );
     }));
   });
 
-  return <div className="HeatMap">{items}</div>;
+  return <div className="HeatMap" onMouseOver={handleMouseOver}>{items}</div>;
 }
 
 function App(props) {
