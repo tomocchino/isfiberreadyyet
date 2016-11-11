@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "recharts": "^0.15.2"
+    "recharts": "^0.17.1"
   },
   "scripts": {
     "start": "react-scripts start",
