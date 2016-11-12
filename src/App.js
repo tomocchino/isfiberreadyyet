@@ -116,31 +116,29 @@ let LineGraph = (function() {
     return (
       <div className="LineGraph">
         <svg viewBox={`0 0 ${props.width - 30} 230`}>
-          <g transform={"translate(0, -40)"}>
-            <VictoryChart width={props.width} height={250}>
-              <VictoryAxis
-                scale="time"
-                standalone={false}
-                style={styles.axisDate}
-                tickValues={tickValues}
-                tickFormat={(date) => `${date.getMonth() + 1}/${date.getDate()}`}
-              />
-              <VictoryAxis
-                dependentAxis
-                domain={[0, 100]}
-                style={styles.axisPercent}
-                tickValues={[0, 25, 50, 75, 100]}
-                tickFormat={(x) => `${x}%`}
-              />
-              <VictoryLine
-                data={props.data}
-                domain={{x: [start, end], y: [0, 100]}}
-                interpolation="basis"
-                scale={{x: "time", y: "linear"}}
-                style={styles.line}
-              />
-            </VictoryChart>
-          </g>
+          <VictoryChart width={props.width} height={250}>
+            <VictoryAxis
+              scale="time"
+              standalone={false}
+              style={styles.axisDate}
+              tickValues={tickValues}
+              tickFormat={(date) => `${date.getMonth() + 1}/${date.getDate()}`}
+            />
+            <VictoryAxis
+              dependentAxis
+              domain={[0, 100]}
+              style={styles.axisPercent}
+              tickValues={[0, 25, 50, 75, 100]}
+              tickFormat={(x) => `${x}%`}
+            />
+            <VictoryLine
+              data={props.data}
+              domain={{x: [start, end], y: [0, 100]}}
+              interpolation="basis"
+              scale={{x: "time", y: "linear"}}
+              style={styles.line}
+            />
+          </VictoryChart>
         </svg>
       </div>
     );
