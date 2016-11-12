@@ -17,14 +17,16 @@ function handleMouseOver(event) {
 }
 
 function processData(rawData) {
+  let toInt = (str) => parseInt(str, 10);
   return rawData.trim().split('\n').map((string) => {
-    let [githash, date, passingStr, totalStr] = string.split(/\t|\//);
-    let timestamp = new Date(date).getTime();
-    let label = date.split(' ')[0].split('-').slice(1).join('/');
-    let total = parseInt(totalStr, 10);
-    let passing = parseInt(passingStr, 10);
+    let [gitHash, dateStr, progress] = string.split(/[\t]/);
+    let dateParts = dateStr.split(/[ :-]/).map(toInt);
+    let [year, month, day, hours, minutes, seconds] = dateParts;
+    let date = new Date(year, month - 1, day, hours, minutes, seconds);
+    let timestamp = date.getTime();
+    let [passing, total] = progress.split(/\//).map(toInt);
     let percent = parseFloat(((passing / total) * 100).toFixed(1), 10);
-    return {label, total, passing, percent, githash, date, timestamp};
+    return {gitHash, date, timestamp, total, passing, percent};
   });
 }
 
