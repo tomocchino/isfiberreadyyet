@@ -52,7 +52,7 @@ function IsItReady(props) {
   );
 }
 
-let LineGraph = (function() {
+let Graph = (function() {
   // const GREEN = "#8ec56a";
   const BLACK = "#262626";
   const DGRAY = "#666";
@@ -114,7 +114,7 @@ let LineGraph = (function() {
     let tickValues = [start, end];
 
     return (
-      <div className="LineGraph">
+      <div className="Graph">
         <svg viewBox={`0 0 ${props.width - 30} 230`}>
           <VictoryChart width={props.width} height={250}>
             <VictoryAxis
@@ -192,7 +192,7 @@ function App(props) {
     <div>
       <ProgressBar data={mostRecent} />
       <IsItReady data={mostRecent} />
-      <LineGraph data={data} width={props.width} />
+      <Graph data={data} width={props.width} />
       <HeatMap failingTests={props.failingTests} passingTests={props.passingTests} />
     </div>
   );
