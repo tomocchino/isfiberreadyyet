@@ -17,8 +17,18 @@ Promise.all(
     url => fetch(root + url).then(resp => resp.text())
   )
 ).then(([data, failingTests, passingTests]) => {
-  ReactDOM.render(
-    <App data={data} failingTests={failingTests} passingTests={passingTests} />,
-    document.getElementById('root')
-  );
+  let root = document.getElementById('root');
+  let render = () => {
+    ReactDOM.render(
+      <App
+        data={data}
+        width={root.clientWidth}
+        failingTests={failingTests}
+        passingTests={passingTests}
+      />,
+      root
+    );
+  }
+  window.addEventListener('resize', render, false);
+  render();
 });
