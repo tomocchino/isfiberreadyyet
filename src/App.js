@@ -1,14 +1,9 @@
 import React from 'react';
 import {
-  CartesianGrid,
-  Dot,
-  Line,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  XAxis,
-  YAxis,
-} from 'recharts';
+  VictoryAxis,
+  VictoryChart,
+  VictoryLine,
+} from 'victory';
 
 function handleMouseOver(event) {
   event.clientX > document.documentElement.clientWidth / 2 ?
@@ -57,30 +52,103 @@ function IsItReady(props) {
   );
 }
 
-function Graph(props) {
+
+function LineGraph(props) {
+  // const GREEN = "#8EC56A";
+  const BLACK = "#262626";
+  const DGRAY = "#666";
+  const LGRAY = "#CCC";
+  let styles = {
+    axisDate: {
+      grid: {
+        stroke: LGRAY,
+        strokeWidth: 1,
+        strokeDasharray: "3 3"
+      },
+      axis: {
+        stroke: BLACK,
+        strokeWidth: 0
+      },
+      ticks: {
+        size: 5,
+        stroke: LGRAY,
+        strokeWidth: 1
+      },
+      tickLabels: {
+        fill: DGRAY,
+        fontFamily: "inherit",
+        fontSize: 14
+      }
+    },
+    axisPercent: {
+      grid: {
+        stroke: LGRAY,
+        strokeWidth: 1,
+        strokeDasharray: "3 3"
+      },
+      axis: {
+        stroke: BLACK,
+        strokeWidth: 1
+      },
+      ticks: {
+        size: 5,
+        stroke: BLACK,
+        strokeWidth: 1
+      },
+      tickLabels: {
+        fill: DGRAY,
+        fontFamily: "inherit",
+        fontSize: 14,
+      }
+    },
+    line: {
+      data: {
+        stroke: DGRAY,
+        strokeWidth: 3
+      }
+    },
+  };
+
+  let dataSetOne = [];
+  props.data.forEach((item) => {
+    dataSetOne.push({x: item.date, y: item.percent});
+  });
+
+  let start = props.data[0].date;
+  let end = props.data[props.data.length - 1].date;
+  let tickValues = [start, end];
+
   return (
-    <div className="Graph">
-      <ResponsiveContainer>
-        <ScatterChart data={props.data} height={300} margin={{top: 10, right: 10}}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="timestamp" domain={['dataMin', 'dataMax']} tickCount={0} />
-          <YAxis dataKey="percent" domain={[0,100]} tickFormatter={(num) => num + '%'} />
-          <Scatter
-            data={props.data}
-            shape={<Dot r={5} className="Dot" />}
-            isAnimationActive={false}
-            line={
-              <Line
-                dot={false}
-                type="basis"
-                dataKey="percent"
-                isAnimationActive={false}
-                style={{stroke: "#666", strokeWidth: 3}}
-              />
-          }/>
-        </ScatterChart>
-      </ResponsiveContainer>
-    </div>
+    <svg viewBox={`0 0 ${props.width - 30} 230`}>
+      <g transform={"translate(0, -40)"}>
+        <VictoryChart width={props.width} height={250}>
+          <VictoryAxis
+            scale="time"
+            standalone={false}
+            style={styles.axisDate}
+            tickValues={tickValues}
+            tickFormat={(date) => `${date.getMonth() + 1}/${date.getDate()}`}
+          />
+          <VictoryAxis
+            dependentAxis
+            domain={[0, 100]}
+            style={styles.axisPercent}
+            tickValues={[0, 25, 50, 75, 100]}
+            tickFormat={(x) => `${x}%`}
+          />
+          <VictoryLine
+            data={dataSetOne}
+            domain={{
+              x: [start, end],
+              y: [0, 100]
+            }}
+            interpolation="basis"
+            scale={{x: "time", y: "linear"}}
+            style={styles.line}
+          />
+        </VictoryChart>
+      </g>
+    </svg>
   );
 }
 
@@ -131,7 +199,7 @@ function App(props) {
     <div className="Container">
       <ProgressBar data={mostRecent} />
       <IsItReady data={mostRecent} />
-      <Graph data={data} />
+      <LineGraph data={data} width={props.width} />
       <HeatMap failingTests={props.failingTests} passingTests={props.passingTests} />
     </div>
   );
