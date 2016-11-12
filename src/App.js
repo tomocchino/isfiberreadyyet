@@ -21,7 +21,7 @@ function processData(rawData) {
     let timestamp = date.getTime();
     let [passing, total] = progress.split(/\//).map(toInt);
     let percent = parseFloat(((passing / total) * 100).toFixed(1), 10);
-    return {gitHash, date, timestamp, total, passing, percent};
+    return {gitHash, date, timestamp, total, passing, percent, x: date, y: percent};
   });
 }
 
@@ -108,11 +108,6 @@ function LineGraph(props) {
     },
   };
 
-  let dataSetOne = [];
-  props.data.forEach((item) => {
-    dataSetOne.push({x: item.date, y: item.percent});
-  });
-
   let start = props.data[0].date;
   let end = props.data[props.data.length - 1].date;
   let tickValues = [start, end];
@@ -137,7 +132,7 @@ function LineGraph(props) {
               tickFormat={(x) => `${x}%`}
             />
             <VictoryLine
-              data={dataSetOne}
+              data={props.data}
               domain={{x: [start, end], y: [0, 100]}}
               interpolation="basis"
               scale={{x: "time", y: "linear"}}
