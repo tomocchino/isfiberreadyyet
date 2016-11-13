@@ -72,15 +72,11 @@ class App extends React.Component {
 
   render() {
     let props = this.props;
+    let testData = processTestData(props.passingTests, props.failingTests);
     let graphData = processGraphData(props.rawGraphData);
     let mostRecent = graphData[graphData.length - 1];
-    let testData = processTestData(props.passingTests, props.failingTests);
-
-    var tooltip = null;
     let tooltipData = this.state.tooltipData;
-    if (tooltipData) {
-      tooltip = <Tooltip {...tooltipData} />;
-    }
+    let tooltip = tooltipData ? <Tooltip {...tooltipData} /> : null;
 
     return (
       <div>
@@ -88,8 +84,8 @@ class App extends React.Component {
         <ProgressBar data={mostRecent} />
         <IsItReady data={mostRecent} />
         <Graph
-          data={graphData}
           width={props.width}
+          graphData={graphData}
           onMouseOut={this.handleMouseOut}
           onMouseOver={this.handleMouseOver}
         />

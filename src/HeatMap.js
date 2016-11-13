@@ -18,27 +18,27 @@ class HeatMap extends React.Component {
   }
 
   render() {
-    let props = this.props;
+    let testData = this.props.testData;
     let index = 0;
-    let items = props.testData.map((testString) => {
+    let items = testData.map((testString) => {
       let [file, test] = testString.split('::');
       let href = 'https://github.com/facebook/react/blob/master/' + file;
       let className = "Test" + (test.slice(0, 1) === '+' ? ' passing' : '');
       return <a key={index++} href={href} className={className} target="_blank" />;
     });
 
-    function handleMouseOver(event) {
+    let handleMouseOver = (event) => {
       let node = event.target;
       if (node.nodeName === 'A') {
         let index = Array.prototype.slice.call(node.parentNode.children).indexOf(node);
-        props.onMouseOver(event, getTooltipContent(props.testData[index]));
+        this.props.onMouseOver(event, getTooltipContent(testData[index]));
       }
-    }
+    };
 
     return (
       <div
         className="HeatMap"
-        onMouseOut={props.onMouseOut}
+        onMouseOut={this.props.onMouseOut}
         onMouseOver={handleMouseOver}>
         {items}
       </div>

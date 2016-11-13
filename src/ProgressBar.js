@@ -7,8 +7,7 @@ class ProgressBar extends React.Component {
   }
 
   render() {
-    let props = this.props;
-    let data = props.data;
+    let data = this.props.data;
     return (
       <div className="ProgressBar">
         <div style={{width: data.percent + "%"}}>

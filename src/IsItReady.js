@@ -7,8 +7,7 @@ class IsItReady extends React.Component {
   }
 
   render() {
-    let props = this.props;
-    let data = props.data;
+    let data = this.props.data;
     let decision = data.passing === data.total;
     let subtext = decision ?
       `Holy shit!` :

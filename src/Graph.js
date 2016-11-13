@@ -6,6 +6,10 @@ import {
   VictoryScatter,
 } from 'victory';
 
+const BLACK = "#262626";
+const DGRAY = "#666";
+const LGRAY = "#ccc";
+
 function getTooltipContent(data) {
   let gitHash = data.gitHash.slice(0, 7);
   let progress = `${data.passing} / ${data.total}`;
@@ -13,9 +17,15 @@ function getTooltipContent(data) {
   return tooltip;
 }
 
-const BLACK = "#262626";
-const DGRAY = "#666";
-const LGRAY = "#ccc";
+function getStyleMutationObj(color) {
+  return [{
+    mutation: (props) => {
+      return {
+        style: Object.assign({}, props.style, {fill: color})
+      };
+    }
+  }]
+}
 
 class Graph extends React.Component {
 
@@ -24,16 +34,17 @@ class Graph extends React.Component {
   }
 
   render() {
-    let props = this.props;
-    let lastIndex = props.data.length - 1;
-    let start = props.data[0].date;
-    let end = props.data[lastIndex].date;
+    let width = this.props.width;
+    let graphData = this.props.graphData;
+    let lastIndex = graphData.length - 1;
+    let start = graphData[0].date;
+    let end = graphData[lastIndex].date;
 
     let styles = {
       xAxis: {
         grid: {
           stroke: LGRAY,
-          strokeWidth: (data) => data.index === lastIndex ? 1 : 0,
+          strokeWidth: data => data.index === lastIndex ? 1 : 0,
           strokeDasharray: "3 3"
         },
         axis: {
@@ -54,7 +65,7 @@ class Graph extends React.Component {
       yAxis: {
         grid: {
           stroke: LGRAY,
-          strokeWidth: (data) => data === 0 ? 0 : 1,
+          strokeWidth: data => data === 0 ? 0 : 1,
           strokeDasharray: "3 3"
         },
         axis: {
@@ -82,31 +93,25 @@ class Graph extends React.Component {
         data: {
           strokeWidth: 10,
           stroke: "transparent",
-          fill: (data) => data.index === lastIndex ? BLACK : "transparent"
+          fill: data => data.index === lastIndex ? BLACK : "transparent"
         }
       }
     };
 
-    function getObj(props, color) {
-      return {
-        style: Object.assign({}, props.style, {fill: color})
-      };
-    }
-
     return (
-      <div className="Graph" onMouseOut={props.onMouseOut}>
-        <svg viewBox={`0 0 ${props.width - 30} 230`}>
-          <VictoryChart width={props.width} height={250}>
+      <div className="Graph" onMouseOut={this.props.onMouseOut}>
+        <svg viewBox={`0 0 ${width - 30} 230`}>
+          <VictoryChart width={width} height={250}>
             <VictoryAxis
               scale="time"
               standalone={false}
               style={styles.xAxis}
+              tickValues={graphData.map((data) => data.date)}
               tickFormat={(date, index) => {
-                return index === 0 || index === props.data.length - 1 ?
+                return index === 0 || index === graphData.length - 1 ?
                   `${date.getMonth() + 1}/${date.getDate()}` :
                   '';
               }}
-              tickValues={props.data.map((d) => d.date)}
             />
             <VictoryAxis
               dependentAxis
@@ -116,34 +121,26 @@ class Graph extends React.Component {
               tickValues={[0, 25, 50, 75, 100]}
             />
             <VictoryLine
-              data={props.data}
+              data={graphData}
               domain={{x: [start, end], y: [0, 100]}}
               interpolation="basis"
               scale={{x: "time", y: "linear"}}
               style={styles.line}
             />
             <VictoryScatter
-              data={props.data}
+              data={graphData}
               domain={{x: [start, end], y: [0, 100]}}
               scale={{x: "time", y: "linear"}}
               style={styles.scatter}
               events={[{
                 eventHandlers: {
                   onMouseOver: (event, point) => {
-                    props.onMouseOver(event, getTooltipContent(point.datum));
-                    return [{
-                      mutation: (props) => {
-                        return getObj(props, BLACK);
-                      }
-                    }];
+                    this.props.onMouseOver(event, getTooltipContent(point.datum));
+                    return getStyleMutationObj(BLACK);
                   },
                   onMouseOut: (event, point) => {
-                    return [{
-                      mutation: (props) => {
-                        let color = point.index === lastIndex ? BLACK : "transparent";
-                        return getObj(props, color);
-                      }
-                    }];
+                    let color = point.index === lastIndex ? BLACK : "transparent";
+                    return getStyleMutationObj(color);
                   },
                   onClick: (event, point) => {
                     let hash = point.datum.gitHash;
