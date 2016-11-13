@@ -9,7 +9,7 @@ import {
 function getTooltipContent(data) {
   let gitHash = data.gitHash.slice(0, 7);
   let progress = `${data.passing} / ${data.total}`;
-  let tooltip =`→ ${gitHash}\n${data.dateStr}\n${data.percent}%  (${progress})`;
+  let tooltip =`${data.dateStr}\n→ ${gitHash}\n\n${data.percent}%  (${progress})`;
   return tooltip;
 }
 

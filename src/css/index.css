@@ -74,11 +74,11 @@ body {
 
 .Tooltip {
   position: absolute;
-  line-height: 1.5;
+  line-height: 1.3;
   z-index: 1;
 }
 
-.Tooltip span {
+.Tooltip > span {
   background: rgb(38, 38, 38);
   bottom: 8px;
   color: white;
@@ -105,7 +105,7 @@ body {
   width: 10px;
 }
 
-.flip .Tooltip span {
+.flip .Tooltip > span {
   right: -15px;
   left: auto;
 }

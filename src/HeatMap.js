@@ -2,10 +2,12 @@ import React from 'react';
 
 function getTooltipContent(testString) {
   let [file, test] = testString.split('::');
-  let filename = file.replace(/__tests__\//, "\n→ ");
+  let fileparts = file.split('/');
+  let filename = fileparts.pop();
+  let filepath = fileparts.join('/').replace(/\/__tests__/, '');
   let testname = test.slice(2);
   let passfail = test.slice(0, 1) === '+' ? "\u2705 passing" : "\u274C failing";
-  let tooltip = `/${filename}\nit("${testname}")\n${passfail}`;
+  let tooltip = `${filename}\n→ ${filepath}\n\nit("${testname}")\n${passfail}`;
   return tooltip;
 }
 
