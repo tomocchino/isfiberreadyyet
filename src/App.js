@@ -3,6 +3,7 @@ import {
   VictoryAxis,
   VictoryChart,
   VictoryLine,
+  VictoryScatter,
 } from 'victory';
 
 function handleMouseOver(event) {
@@ -137,6 +138,19 @@ let Graph = (function() {
               interpolation="basis"
               scale={{x: "time", y: "linear"}}
               style={styles.line}
+            />
+            <VictoryScatter
+              events={[{
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: (event, data) => {
+                    console.log(event.pageX, event.pageY, data);
+                  }
+                }
+              }]}
+              data={props.data}
+              domain={{x: [start, end], y: [0, 100]}}
+              scale={{x: "time", y: "linear"}}
             />
           </VictoryChart>
         </svg>
