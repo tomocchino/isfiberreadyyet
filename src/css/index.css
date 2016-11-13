@@ -61,14 +61,11 @@ body {
   position: relative;
   text-align: center;
   width: 10px;
+  background: #eee;
 }
 
 .Test.passing {
   background: #8ec56a;
-}
-
-.Test.failing {
-  background: #eee;
 }
 
 .Test:hover {
@@ -76,42 +73,38 @@ body {
 }
 
 .Tooltip {
-  display: none;
-}
-
-.Test:hover .Tooltip {
-  display: block;
+  position: absolute;
+  line-height: 1.5;
 }
 
 .Tooltip span {
-  background: #262626;
-  bottom: -100%;
+  background: rgb(38, 38, 38);
+  bottom: 8px;
   color: white;
-  left: -11px;
-  margin-bottom: 29px;
-  padding: 5px;
+  left: -15px;
+  max-width: 300px;
+  overflow: hidden;
+  padding: 5px 10px;
   pointer-events: none;
   position: absolute;
   text-align: left;
-  white-space: pre-wrap;
-  width: 300px;
-  z-index: 2;
+  text-overflow: ellipsis;
+  white-space: pre;
+  z-index: 1;
 }
 
 .Tooltip:after {
   background: #262626;
   content: "";
-  display: block;
   height: 10px;
-  left: 0px;
-  margin-top: -5px;
+  left: -5px;
   position: absolute;
-  top: -9px;
+  top: -13px;
   transform: rotate(-45deg);
   width: 10px;
-  z-index: 1;
 }
 
 .flip .Tooltip span {
-  left: -289px;
+  right: -15px;
+  left: auto;
 }
