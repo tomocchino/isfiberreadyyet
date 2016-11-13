@@ -6,7 +6,6 @@ import {
   VictoryScatter,
 } from 'victory';
 
-// const GREEN = "#8ec56a";
 const BLACK = "#262626";
 const DGRAY = "#666";
 const LGRAY = "#ccc";
