@@ -16,13 +16,13 @@ Promise.all(
   urls.map(
     url => fetch(root + url).then(resp => resp.text())
   )
-).then(([data, failingTests, passingTests]) => {
+).then(([rawGraphData, failingTests, passingTests]) => {
   let root = document.getElementById('root');
   let render = () => {
     ReactDOM.render(
       <App
-        data={data}
         width={root.clientWidth}
+        rawGraphData={rawGraphData}
         failingTests={failingTests}
         passingTests={passingTests}
       />,
