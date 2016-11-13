@@ -5,7 +5,7 @@ function getTooltipContent(testString) {
   let filename = file.replace(/__tests__\//, "\n→ ");
   let testname = test.slice(2);
   let passfail = test.slice(0, 1) === '+' ? "\u2705 passing" : "\u274C failing";
-  let tooltip = `/${filename}\n\nit("${testname}")\n${passfail}`;
+  let tooltip = `/${filename}\nit("${testname}")\n${passfail}`;
   return tooltip;
 }
 
@@ -23,7 +23,8 @@ class HeatMap extends React.Component {
       let href = 'https://github.com/facebook/react/blob/master/' + file;
       let className = "Test" + (test.slice(0, 1) === '+' ? ' passing' : '');
       return <a key={index++} href={href} className={className} target="_blank" />;
-    })
+    });
+
     function handleMouseOver(event) {
       let node = event.target;
       if (node.nodeName === 'A') {

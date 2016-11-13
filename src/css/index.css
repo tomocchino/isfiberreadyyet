@@ -75,6 +75,7 @@ body {
 .Tooltip {
   position: absolute;
   line-height: 1.5;
+  z-index: 1;
 }
 
 .Tooltip span {

@@ -37,7 +37,9 @@ function processTestData(passingTests, failingTests) {
     });
   }
 
-  return Object.values(groups).reduce((a, b) => a.concat(b));
+  return Object.keys(groups)
+    .map(group => groups[group])
+    .reduce((a, b) => a.concat(b));
 }
 
 function Tooltip(props) {
