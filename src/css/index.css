@@ -68,6 +68,10 @@ body {
   background: #8ec56a;
 }
 
+.Test.failingInDev {
+  background: #e7c532;
+}
+
 .Test:hover {
   border-color: #262626;
 }

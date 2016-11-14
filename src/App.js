@@ -18,18 +18,19 @@ function processGraphData(rawData) {
   });
 }
 
-function processTestData(passingTests, failingTests) {
+function processTestData(passingTests, failingTests, failingInDevTests) {
   let groups = {};
   let groupsList = (
-    passingTests.replace(/\n\*/g, "\n+") + "\n\n" +
-    failingTests.replace(/\n\*/g, "\n-")
-  ).trim().split("\n\n");
+    passingTests.replace(/\n\*/g, "\n+").trim() + "\n\n" +
+    failingInDevTests.replace(/\n\*/g, "\n~").trim() + "\n\n" +
+    failingTests.replace(/\n\*/g, "\n-").trim()
+  ).split("\n\n");
 
   for (var ii = 0; ii < groupsList.length; ii++) {
     let group = groupsList[ii].split("\n");
     let file = group[0];
     let tests = group.slice(1).map((test) => {
-      return file + '::' + test;
+      return file + '::::' + test;
     });
     if (!groups[file]) { groups[file] = []; }
     groups[file] = groups[file].concat(tests).sort((line1, line2) => {
@@ -72,7 +73,7 @@ class App extends React.Component {
 
   render() {
     let props = this.props;
-    let testData = processTestData(props.passingTests, props.failingTests);
+    let testData = processTestData(props.passingTests, props.failingTests, props.failingInDevTests);
     let graphData = processGraphData(props.rawGraphData);
     let mostRecent = graphData[graphData.length - 1];
     let tooltipData = this.state.tooltipData;

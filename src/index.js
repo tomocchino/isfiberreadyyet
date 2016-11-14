@@ -9,14 +9,15 @@ let root = 'https://raw.githubusercontent.com/facebook/react/';
 let urls = [
   'facts/fiber-tests.txt',
   'master/scripts/fiber/tests-failing.txt',
-  'master/scripts/fiber/tests-passing.txt'
+  'master/scripts/fiber/tests-passing.txt',
+  'master/scripts/fiber/tests-passing-except-dev.txt'
 ];
 
 Promise.all(
   urls.map(
     url => fetch(root + url).then(resp => resp.text())
   )
-).then(([rawGraphData, failingTests, passingTests]) => {
+).then(([rawGraphData, failingTests, passingTests, failingInDevTests]) => {
   let root = document.getElementById('root');
   let render = () => {
     ReactDOM.render(
@@ -25,6 +26,7 @@ Promise.all(
         rawGraphData={rawGraphData}
         failingTests={failingTests}
         passingTests={passingTests}
+        failingInDevTests={failingInDevTests}
       />,
       root
     );
