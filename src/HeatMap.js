@@ -1,20 +1,17 @@
 import React from 'react';
 
 let testStatus = {
-  '+': {className: 'passing', string: '\u2705 passing'},
-  '-': {className: 'failing', string: '\u274C failing'},
-  '~': {className: 'failingInDev', string: '\uD83D\uDEA7 passing, except dev-only behavior'}
+  passing:'\u2705 passing',
+  failingInDev: '\uD83D\uDEA7 passing, except dev-only behavior',
+  failing: '\u274C failing',
 };
 
-function getTooltipContent(testString) {
-  let [file, test] = testString.split('::::');
-  let fileparts = file.split('/');
+function getTooltipContent(data) {
+  let fileparts = data.file.split('/');
   let filename = fileparts.pop();
   let filepath = fileparts.join('/').replace(/\/__tests__/, '');
-  let testname = test.slice(2);
-  let passfail = testStatus[test.slice(0, 1)].string;
-  let tooltip = `${filename}\n→ ${filepath}\n\nit("${testname}")\n${passfail}`;
-  return tooltip;
+  let testname = data.test.slice(2);
+  return `${filename}\n→ ${filepath}\n\nit("${testname}")\n${testStatus[data.status]}`;
 }
 
 class HeatMap extends React.Component {
@@ -24,28 +21,51 @@ class HeatMap extends React.Component {
   }
 
   render() {
-    let testData = this.props.testData;
+    let props = this.props;
     let index = 0;
-    let items = testData.map((testString) => {
-      let [file, test] = testString.split('::::');
-      let href = 'https://github.com/facebook/react/blob/master/' + file;
-      let status = test.slice(0, 1);
-      let className = "Test " + testStatus[status].className;
-      return <a key={index++} href={href} className={className} target="_blank" />;
+    let testData = {};
+    let tooltipData = [];
+
+    Object.keys(props.rawTestData).forEach((status) => {
+      props.rawTestData[status].split("\n\n").forEach((testGroup) => {
+        let lines = testGroup.split("\n");
+        let file = lines[0];
+        let tests = lines.slice(1);
+        if (!testData[file]) { testData[file] = {}; }
+        testData[file][status] = tests.map((test) => {
+          tooltipData.push({file, test, status});
+          return (
+            <a
+              key={index++}
+              target="_blank"
+              className={`Test ${status}`}
+              href={`https://github.com/facebook/react/blob/master/${file}`}
+            />
+          );
+        });
+      });
+    });
+
+    let items = [];
+    Object.keys(testData).forEach((file) => {
+      let testList = testData[file];
+      items = items.concat(Object.keys(testList).map((status) => {
+        return testList[status];
+      }));
     });
 
     let handleMouseOver = (event) => {
       let node = event.target;
       if (node.nodeName === 'A') {
         let index = Array.prototype.slice.call(node.parentNode.children).indexOf(node);
-        this.props.onMouseOver(event, getTooltipContent(testData[index]));
+        props.onMouseOver(event, getTooltipContent(tooltipData[index]));
       }
     };
 
     return (
       <div
         className="HeatMap"
-        onMouseOut={this.props.onMouseOut}
+        onMouseOut={props.onMouseOut}
         onMouseOver={handleMouseOver}>
         {items}
       </div>

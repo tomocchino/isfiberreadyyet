@@ -13,8 +13,7 @@ const LGRAY = "#ccc";
 function getTooltipContent(data) {
   let gitHash = data.gitHash.slice(0, 7);
   let progress = `${data.passing} / ${data.total}`;
-  let tooltip =`${data.dateStr}\n→ ${gitHash}\n\n${data.percent}%  (${progress})`;
-  return tooltip;
+  return `${data.dateStr}\n→ ${gitHash}\n\n${data.percent}%  (${progress})`;
 }
 
 function getStyleMutationObj(color) {
