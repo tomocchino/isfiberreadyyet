@@ -1,6 +1,6 @@
 import React from 'react';
 
-let testStatus = {
+const testStatus = {
   passing:'\u2705 passing',
   failingInDev: '\uD83D\uDEA7 passing, except dev-only behavior',
   failing: '\u274C failing',
@@ -24,7 +24,6 @@ class HeatMap extends React.Component {
     let props = this.props;
     let index = 0;
     let testData = {};
-    let tooltipData = [];
 
     Object.keys(props.rawTestData).forEach((status) => {
       props.rawTestData[status].split("\n\n").forEach((testGroup) => {
@@ -33,11 +32,11 @@ class HeatMap extends React.Component {
         let tests = lines.slice(1);
         if (!testData[file]) { testData[file] = {}; }
         testData[file][status] = tests.map((test) => {
-          tooltipData.push({file, test, status});
           return (
             <a
               key={index++}
               target="_blank"
+              data-tooltip={getTooltipContent({file, test, status})}
               className={`Test ${status}`}
               href={`https://github.com/facebook/react/blob/master/${file}`}
             />
@@ -57,8 +56,7 @@ class HeatMap extends React.Component {
     let handleMouseOver = (event) => {
       let node = event.target;
       if (node.nodeName === 'A') {
-        let index = Array.prototype.slice.call(node.parentNode.children).indexOf(node);
-        props.onMouseOver(event, getTooltipContent(tooltipData[index]));
+        props.onMouseOver(event, node.getAttribute('data-tooltip'));
       }
     };
 
