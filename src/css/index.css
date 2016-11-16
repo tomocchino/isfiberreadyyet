@@ -80,6 +80,7 @@ body {
   position: absolute;
   line-height: 1.3;
   z-index: 1;
+  pointer-events: none;
 }
 
 .Tooltip > span {
@@ -90,7 +91,6 @@ body {
   max-width: 300px;
   overflow: hidden;
   padding: 5px 10px;
-  pointer-events: none;
   position: absolute;
   text-align: left;
   text-overflow: ellipsis;
