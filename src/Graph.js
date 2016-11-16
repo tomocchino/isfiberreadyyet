@@ -4,6 +4,7 @@ import {
   VictoryChart,
   VictoryLine,
   VictoryScatter,
+  VictoryContainer,
 } from 'victory';
 
 const BLACK = "#262626";
@@ -99,58 +100,59 @@ class Graph extends React.Component {
 
     return (
       <div className="Graph" onMouseOut={this.props.onMouseOut}>
-        <svg viewBox={`0 0 ${width - 30} 230`}>
-          <VictoryChart width={width} height={250}>
-            <VictoryAxis
-              scale="time"
-              standalone={false}
-              style={styles.xAxis}
-              tickValues={graphData.map((data) => data.date)}
-              tickFormat={(date, index) => {
-                return index === 0 || index === graphData.length - 1 ?
-                  `${date.getMonth() + 1}/${date.getDate()}` :
-                  '';
-              }}
-            />
-            <VictoryAxis
-              dependentAxis
-              domain={[0, 100]}
-              style={styles.yAxis}
-              tickFormat={(x) => `${x}%`}
-              tickValues={[0, 25, 50, 75, 100]}
-            />
-            <VictoryLine
-              data={graphData}
-              domain={{x: [start, end], y: [0, 100]}}
-              interpolation="basis"
-              scale={{x: "time", y: "linear"}}
-              style={styles.line}
-            />
-            <VictoryScatter
-              data={graphData}
-              domain={{x: [start, end], y: [0, 100]}}
-              scale={{x: "time", y: "linear"}}
-              style={styles.scatter}
-              events={[{
-                eventHandlers: {
-                  onMouseOver: (event, point) => {
-                    this.props.onMouseOver(event, getTooltipContent(point.datum));
-                    return getStyleMutationObj(BLACK);
-                  },
-                  onMouseOut: (event, point) => {
-                    let color = point.index === lastIndex ? BLACK : "transparent";
-                    return getStyleMutationObj(color);
-                  },
-                  onClick: (event, point) => {
-                    let hash = point.datum.gitHash;
-                    let url = `https://github.com/facebook/react/commit/${hash}`;
-                    window.open(url);
-                  }
+        <VictoryChart
+          height={260}
+          width={width + 30}
+          containerComponent={<VictoryContainer responsive={false} title="" />}>
+          <VictoryAxis
+            scale="time"
+            standalone={false}
+            style={styles.xAxis}
+            tickValues={graphData.map((data) => data.date)}
+            tickFormat={(date, index) => {
+              return index === 0 || index === graphData.length - 1 ?
+                `${date.getMonth() + 1}/${date.getDate()}` :
+                '';
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            domain={[0, 100]}
+            style={styles.yAxis}
+            tickFormat={(x) => `${x}%`}
+            tickValues={[0, 25, 50, 75, 100]}
+          />
+          <VictoryLine
+            data={graphData}
+            domain={{x: [start, end], y: [0, 100]}}
+            interpolation="basis"
+            scale={{x: "time", y: "linear"}}
+            style={styles.line}
+          />
+          <VictoryScatter
+            data={graphData}
+            domain={{x: [start, end], y: [0, 100]}}
+            scale={{x: "time", y: "linear"}}
+            style={styles.scatter}
+            events={[{
+              eventHandlers: {
+                onMouseOver: (event, point) => {
+                  this.props.onMouseOver(event, getTooltipContent(point.datum));
+                  return getStyleMutationObj(BLACK);
+                },
+                onMouseOut: (event, point) => {
+                  let color = point.index === lastIndex ? BLACK : "transparent";
+                  return getStyleMutationObj(color);
+                },
+                onClick: (event, point) => {
+                  let hash = point.datum.gitHash;
+                  let url = `https://github.com/facebook/react/commit/${hash}`;
+                  window.open(url);
                 }
-              }]}
-            />
-          </VictoryChart>
-        </svg>
+              }
+            }]}
+          />
+        </VictoryChart>
       </div>
     );
   }
