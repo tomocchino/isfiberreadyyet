@@ -8,8 +8,7 @@ import {
 } from 'victory';
 
 const BLACK = "#262626";
-const DGRAY = "#666";
-const LGRAY = "#ccc";
+const GRAY = "#ccc";
 
 function getTooltipContent(data) {
   let gitHash = data.gitHash.slice(0, 7);
@@ -43,7 +42,7 @@ class Graph extends React.Component {
     let styles = {
       xAxis: {
         grid: {
-          stroke: LGRAY,
+          stroke: GRAY,
           strokeWidth: data => data.index === lastIndex ? 1 : 0,
           strokeDasharray: "3 3"
         },
@@ -57,14 +56,14 @@ class Graph extends React.Component {
           strokeWidth: 1
         },
         tickLabels: {
-          fill: DGRAY,
+          fill: BLACK,
           fontFamily: "inherit",
           fontSize: 14
         }
       },
       yAxis: {
         grid: {
-          stroke: LGRAY,
+          stroke: GRAY,
           strokeWidth: data => data === 0 ? 0 : 1,
           strokeDasharray: "3 3"
         },
@@ -78,14 +77,14 @@ class Graph extends React.Component {
           strokeWidth: 1
         },
         tickLabels: {
-          fill: DGRAY,
+          fill: BLACK,
           fontFamily: "inherit",
           fontSize: 14,
         }
       },
       line: {
         data: {
-          stroke: DGRAY,
+          stroke: BLACK,
           strokeWidth: 3
         }
       },

@@ -3,6 +3,7 @@ import ProgressBar from './ProgressBar';
 import IsItReady from './IsItReady';
 import Graph from './Graph';
 import HeatMap from './HeatMap';
+import Footer from './Footer';
 
 function processGraphData(rawGraphData) {
   let toInt = (str) => parseInt(str, 10);
@@ -69,6 +70,7 @@ class App extends React.Component {
           onMouseOut={this.handleMouseOut}
           onMouseOver={this.handleMouseOver}
         />
+        <Footer />
       </div>
     );
   }
