@@ -124,7 +124,7 @@ class Graph extends React.Component {
           <VictoryLine
             data={graphData}
             domain={{x: [start, end], y: [0, 100]}}
-            interpolation="basis"
+            interpolation="stepAfter"
             scale={{x: "time", y: "linear"}}
             style={styles.line}
           />
