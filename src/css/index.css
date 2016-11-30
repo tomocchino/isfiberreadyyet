@@ -95,11 +95,10 @@ a:hover {
   pointer-events: none;
 }
 
-.Tooltip > span {
+.TooltipContent {
   background: rgb(38, 38, 38);
   bottom: 8px;
   color: white;
-  left: -15px;
   max-width: 300px;
   overflow: hidden;
   padding: 5px 10px;
@@ -119,11 +118,6 @@ a:hover {
   top: -13px;
   transform: rotate(-45deg);
   width: 10px;
-}
-
-.flip .Tooltip > span {
-  right: -15px;
-  left: auto;
 }
 
 .Footer {

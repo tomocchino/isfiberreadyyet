@@ -20,9 +20,13 @@ function processGraphData(rawGraphData) {
 }
 
 function Tooltip(props) {
+  let contentStyle = {
+    right: props.flip ? -15 : 'auto',
+    left: props.flip ? 'auto' : -15
+  };
   return (
     <div className="Tooltip" style={{left: props.left, top: props.top}}>
-      <span>{props.content}</span>
+      <span className="TooltipContent" style={contentStyle}>{props.content}</span>
     </div>
   );
 }
@@ -34,13 +38,11 @@ class App extends React.Component {
   }
 
   handleMouseOver = (event, content) => {
-    event.clientX > document.documentElement.clientWidth / 2 ?
-      document.body.classList.add('flip') :
-      document.body.classList.remove('flip');
     let rect = event.target.getBoundingClientRect();
     let left = rect.left + (rect.width / 2) + window.scrollX;
     let top = rect.top + window.scrollY;
-    this.setState({tooltipData: {left, top, content}});
+    let flip = event.clientX > document.documentElement.clientWidth / 2;
+    this.setState({tooltipData: {left, top, content, flip}});
   }
 
   handleMouseOut = (event) => {
