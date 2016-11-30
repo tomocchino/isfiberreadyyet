@@ -21,7 +21,7 @@ a:hover {
   z-index: 1;
 }
 
-.IsItReady h1 {
+.IsItReadyText {
   color: #262626;
   font-size: 150px;
   font-weight: bold;
@@ -39,7 +39,7 @@ a:hover {
   z-index: 1;
 }
 
-.ProgressBar > div {
+.ProgressBarFill {
   background: #262626;
   color: #fff;
   height: 30px;
@@ -124,6 +124,6 @@ a:hover {
   text-align: center;
 }
 
-.Footer a {
+.FooterLink {
   margin: 0 5px;
 }

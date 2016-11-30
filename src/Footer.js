@@ -1,5 +1,14 @@
 import React from 'react';
 
+function FooterLink(props) {
+  let href = `https://github.com/${props.href}`;
+  return (
+    <a target="_blank" className="FooterLink" href={href}>
+      {props.children}
+    </a>
+  );
+}
+
 class Footer extends React.Component {
 
   shouldComponentUpdate() {
@@ -9,13 +18,13 @@ class Footer extends React.Component {
   render() {
     return (
       <div className="Footer">
-        <a href="https://github.com/facebook/react/issues/7942" target="_blank">
+        <FooterLink href="facebook/react/issues/7942">
           Principles
-        </a>
+        </FooterLink>
         &middot;
-        <a href="https://github.com/acdlite/react-fiber-architecture" target="_blank">
+        <FooterLink href="acdlite/react-fiber-architecture">
           What is Fiber?
-        </a>
+        </FooterLink>
       </div>
     );
   }

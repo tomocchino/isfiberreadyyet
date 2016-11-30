@@ -14,7 +14,7 @@ class IsItReady extends React.Component {
       `It's like ${data.percent}% done, though.`;
     return (
       <div className="IsItReady">
-        <h1>{decision ? 'Yes' : 'No'}</h1>
+        <h1 className="IsItReadyText">{decision ? 'Yes' : 'No'}</h1>
         <a href="https://github.com/facebook/react/issues/7925" target="_blank">
           {subtext}
         </a>
