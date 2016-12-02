@@ -101,7 +101,7 @@ class Graph extends React.Component {
       <div className="Graph" onMouseOut={this.props.onMouseOut}>
         <VictoryChart
           height={260}
-          width={width + 30}
+          width={width}
           containerComponent={<VictoryContainer responsive={false} title="" />}>
           <VictoryAxis
             scale="time"

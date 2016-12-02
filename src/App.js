@@ -39,8 +39,8 @@ class App extends React.Component {
 
   handleMouseOver = (event, content) => {
     let rect = event.target.getBoundingClientRect();
-    let left = rect.left + (rect.width / 2) + window.scrollX;
-    let top = rect.top + window.scrollY;
+    let left = Math.round(rect.left + (rect.width / 2) + window.scrollX);
+    let top = Math.round(rect.top + window.scrollY);
     let flip = event.clientX > document.documentElement.clientWidth / 2;
     this.setState({tooltipData: {left, top, content, flip}});
   }
@@ -58,7 +58,6 @@ class App extends React.Component {
 
     return (
       <div>
-        {tooltip}
         <ProgressBar data={mostRecent} />
         <IsItReady data={mostRecent} />
         <Graph
@@ -73,6 +72,7 @@ class App extends React.Component {
           onMouseOver={this.handleMouseOver}
         />
         <Footer />
+        {tooltip}
       </div>
     );
   }
