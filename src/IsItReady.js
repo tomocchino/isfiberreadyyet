@@ -8,10 +8,12 @@ class IsItReady extends React.Component {
 
   render() {
     let data = this.props.data;
-    let decision = data.passing === data.total;
+    let warnings = this.props.numWarnings;
+    let decision = data.passing === data.total && warnings === 0;
+    let percent = data.percent;
     let subtext = decision ?
       `Holy shit!` :
-      `It's like ${data.percent}% done, though.`;
+      `It's ${percent}% done, though, with ${warnings} warnings left to fix.`;
     return (
       <div className="IsItReady">
         <h1 className="IsItReadyText">{decision ? 'Yes' : 'No'}</h1>

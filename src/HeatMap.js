@@ -1,9 +1,9 @@
 import React from 'react';
 
 const testStatus = {
-  passing:'\u2705 passing',
-  failingInDev: '\uD83D\uDEA7 passing, except dev-only behavior',
-  failing: '\u274C failing',
+  passing:'\u2705 \u00a0passing',
+  failingInDev: '\uD83D\uDEA7 \u00a0passing, except dev-only behavior',
+  failing: '\u274C \u00a0failing',
 };
 
 function getTooltipContent(data) {

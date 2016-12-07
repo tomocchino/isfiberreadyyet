@@ -55,11 +55,12 @@ class App extends React.Component {
     let mostRecent = graphData[graphData.length - 1];
     let tooltipData = this.state.tooltipData;
     let tooltip = tooltipData ? <Tooltip {...tooltipData} /> : null;
+    let numWarnings = props.rawTestData.failingInDev.split(/^\*/gm).length;
 
     return (
       <div>
         <ProgressBar data={mostRecent} />
-        <IsItReady data={mostRecent} />
+        <IsItReady data={mostRecent} numWarnings={numWarnings} />
         <Graph
           width={props.width}
           graphData={graphData}
