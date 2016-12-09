@@ -11,15 +11,20 @@ class IsItReady extends React.Component {
     let warnings = this.props.numWarnings;
     let decision = data.passing === data.total && warnings === 0;
     let percent = data.percent;
-    let subtext = decision ?
-      `Holy shit!` :
-      `It's ${percent}% done, though, with ${warnings} warnings left to fix.`;
+    let conjunction = decision ? 'and' : 'but';
+    let details = decision ? null :
+      <a href="https://github.com/facebook/react/issues/7925" target="_blank">
+        {`${percent}% of unit tests passing, ${warnings} warnings left to fix`}
+      </a>;
+
     return (
       <div className="IsItReady">
         <h1 className="IsItReadyText">{decision ? 'Yes' : 'No'}</h1>
-        <a href="https://github.com/facebook/react/issues/7925" target="_blank">
-          {subtext}
-        </a>
+        <p className="IsItReadySubtext">
+          {`${conjunction} this page was rendered with it `}
+          <span>{'\u2705'}</span>
+        </p>
+        {details}
       </div>
     );
   }

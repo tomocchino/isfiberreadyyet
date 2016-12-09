@@ -21,10 +21,19 @@ a:hover {
 }
 
 .IsItReadyText {
-  color: #262626;
   font-size: 150px;
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.IsItReadySubtext {
+  font-weight: bold;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.IsItReadySubtext span {
+  font-size: 11px;
 }
 
 .ProgressBar {
