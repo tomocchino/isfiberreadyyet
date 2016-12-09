@@ -32,8 +32,10 @@ a:hover {
   margin-bottom: 10px;
 }
 
-.IsItReadySubtext span {
+.EmojiIcon {
+  display: inline-block;
   font-size: 11px;
+  position: relative;
 }
 
 .ProgressBar {
@@ -113,6 +115,12 @@ a:hover {
   text-align: left;
   text-overflow: ellipsis;
   white-space: pre;
+}
+
+.TooltipStatus .EmojiIcon {
+  left: -2px;
+  margin-right: 5px;
+  top: 1px;
 }
 
 .Tooltip:after {

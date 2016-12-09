@@ -1,17 +1,11 @@
 import React from 'react';
 
-const testStatus = {
-  passing:'\u2705 \u00a0passing',
-  failingInDev: '\uD83D\uDEA7 \u00a0passing, except dev-only behavior',
-  failing: '\u274C \u00a0failing',
-};
-
 function getTooltipContent(data) {
   let fileparts = data.file.split('/');
   let filename = fileparts.pop();
   let filepath = fileparts.join('/').replace(/\/__tests__/, '');
   let testname = data.test.slice(2);
-  return `${filename}\n→ ${filepath}\n\nit("${testname}")\n${testStatus[data.status]}`;
+  return `${filename}\n→ ${filepath}\n\nit("${testname}")}`;
 }
 
 class HeatMap extends React.Component {
@@ -36,7 +30,8 @@ class HeatMap extends React.Component {
             <a
               key={index++}
               target="_blank"
-              data-tooltip={getTooltipContent({file, test, status})}
+              data-tooltip={getTooltipContent({file, test})}
+              data-status={status}
               className={`Test ${status}`}
               href={`https://github.com/facebook/react/blob/master/${file}`}
             />
@@ -56,7 +51,11 @@ class HeatMap extends React.Component {
     let handleMouseOver = (event) => {
       let node = event.target;
       if (node.nodeName === 'A') {
-        props.onMouseOver(event, node.getAttribute('data-tooltip'));
+        props.onMouseOver(
+          event,
+          node.getAttribute('data-tooltip'),
+          node.getAttribute('data-status')
+        );
       }
     };
 

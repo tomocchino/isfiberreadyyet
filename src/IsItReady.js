@@ -22,7 +22,7 @@ class IsItReady extends React.Component {
         <h1 className="IsItReadyText">{decision ? 'Yes' : 'No'}</h1>
         <p className="IsItReadySubtext">
           {`${conjunction} this page was rendered with it `}
-          <span>{'\u2705'}</span>
+          <span className="EmojiIcon">{'\u2705'}</span>
         </p>
         {details}
       </div>

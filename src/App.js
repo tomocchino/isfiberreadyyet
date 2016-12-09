@@ -19,14 +19,41 @@ function processGraphData(rawGraphData) {
   });
 }
 
+const tooltipIcons = {
+  passing: '\u2705',
+  failingInDev: '\uD83D\uDEA7',
+  failing: '\u274C',
+};
+
+const tooltipStatus = {
+  passing: 'passing',
+  failingInDev: 'passing, except dev-only behavior',
+  failing: 'failing',
+};
+
 function Tooltip(props) {
   let contentStyle = {
     right: props.flip ? -15 : 'auto',
     left: props.flip ? 'auto' : -15
   };
+
+  var statusRow = null;
+  if (props.status) {
+    let icon = tooltipIcons[props.status];
+    let text = tooltipStatus[props.status];
+    statusRow =
+      <div className="TooltipStatus">
+        <span className="EmojiIcon">{icon}</span>
+        {text}
+      </div>;
+  }
+
   return (
     <div className="Tooltip" style={{left: props.left, top: props.top}}>
-      <span className="TooltipContent" style={contentStyle}>{props.content}</span>
+      <div className="TooltipContent" style={contentStyle}>
+        {props.content}
+        {statusRow}
+      </div>
     </div>
   );
 }
@@ -37,12 +64,12 @@ class App extends React.Component {
     tooltipData: null
   }
 
-  handleMouseOver = (event, content) => {
+  handleMouseOver = (event, content, status) => {
     let rect = event.target.getBoundingClientRect();
     let left = Math.round(rect.left + (rect.width / 2) + window.scrollX);
     let top = Math.round(rect.top + window.scrollY);
     let flip = event.clientX > document.documentElement.clientWidth / 2;
-    this.setState({tooltipData: {left, top, content, flip}});
+    this.setState({tooltipData: {left, top, content, status, flip}});
   }
 
   handleMouseOut = (event) => {
