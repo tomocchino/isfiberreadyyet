@@ -27,9 +27,12 @@ a:hover {
 }
 
 .IsItReadySubtext {
-  font-weight: bold;
   margin-top: -5px;
   margin-bottom: 10px;
+}
+
+.IsItReadyDetails {
+  font-weight: bold;
 }
 
 .EmojiIcon {
