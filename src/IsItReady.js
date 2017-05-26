@@ -13,7 +13,7 @@ class IsItReady extends React.Component {
     let percent = data.percent;
     let conjunction = decision ? 'and' : 'but';
     let details = decision ? null :
-      <a href="https://github.com/facebook/react/issues/7925" target="_blank">
+      <a href="https://github.com/facebook/react/issues/7925" rel="noopener noreferrer" target="_blank">
         {`${percent}% of unit tests passing, ${warnings} warnings left to fix`}
       </a>;
 

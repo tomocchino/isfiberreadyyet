@@ -3,7 +3,7 @@ import React from 'react';
 function FooterLink(props) {
   let href = `https://github.com/${props.href}`;
   return (
-    <a target="_blank" className="FooterLink" href={href}>
+    <a target="_blank" rel="noopener noreferrer" className="FooterLink" href={href}>
       {props.children}
     </a>
   );

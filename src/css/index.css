@@ -75,15 +75,18 @@ a:hover {
 }
 
 .Test {
+  background: #eee;
   border: 1px solid #fff;
+  color: transparent;
   cursor: default;
   display: block;
   float: left;
+  font-size: 0;
   height: 10px;
+  overflow: hidden;
   position: relative;
   text-align: center;
   width: 10px;
-  background: #eee;
 }
 
 .Test.passing {

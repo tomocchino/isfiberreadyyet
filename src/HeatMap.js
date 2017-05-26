@@ -30,11 +30,13 @@ class HeatMap extends React.Component {
             <a
               key={index++}
               target="_blank"
+              rel="noopener noreferrer"
               data-tooltip={getTooltipContent({file, test})}
               data-status={status}
               className={`Test ${status}`}
-              href={`https://github.com/facebook/react/blob/master/${file}`}
-            />
+              href={`https://github.com/facebook/react/blob/master/${file}`}>
+              {status}: {test}
+            </a>
           );
         });
       });
