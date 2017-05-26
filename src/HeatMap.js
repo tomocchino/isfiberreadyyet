@@ -25,7 +25,7 @@ class HeatMap extends React.Component {
         let file = lines[0];
         let tests = lines.slice(1);
         if (!testData[file]) { testData[file] = {}; }
-        testData[file][status] = tests.map((test) => {
+        testData[file][status] = tests.filter(test => test !== '').map((test) => {
           return (
             <a
               key={index++}
