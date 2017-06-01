@@ -21,7 +21,7 @@ class HeatMap extends React.Component {
 
     Object.keys(props.rawTestData).forEach((status) => {
       props.rawTestData[status].split("\n\n").forEach((testGroup) => {
-        let lines = testGroup.split("\n");
+        let lines = testGroup.replace(/\n$/, '').split("\n");
         let file = lines[0];
         let tests = lines.slice(1);
         if (!testData[file]) { testData[file] = {}; }
