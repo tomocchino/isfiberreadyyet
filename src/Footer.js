@@ -18,16 +18,20 @@ class Footer extends React.Component {
   render() {
     return (
       <div className="Footer">
+        <FooterLink href="acdlite/react-fiber-architecture">
+          Architecture
+        </FooterLink>
+        /
         <FooterLink href="facebook/react/issues/7942">
           Principles
         </FooterLink>
         &middot;
-        <FooterLink href="acdlite/react-fiber-architecture">
-          What is Fiber?
+        <FooterLink href="facebook/react/issues/7925">
+          Umbrella
         </FooterLink>
         &middot;
         <FooterLink href="tomocchino/isfiberreadyyet">
-          Website Source
+          Page Source
         </FooterLink>
       </div>
     );

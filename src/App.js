@@ -43,7 +43,7 @@ function Tooltip(props) {
     let text = tooltipStatus[props.status];
     statusRow =
       <div className="TooltipStatus">
-        <span className="EmojiIcon">{icon}</span>
+        <i>{icon}</i>
         {text}
       </div>;
   }
