@@ -5,7 +5,7 @@ function getTooltipContent(data) {
   let filename = fileparts.pop();
   let filepath = fileparts.join('/').replace(/\/__tests__/, '');
   let testname = data.test.slice(2);
-  return `${filename}\n→ ${filepath}\n\nit("${testname}")}`;
+  return `${filename}\n→ ${filepath}\n\nit("${testname}")`;
 }
 
 class HeatMap extends React.Component {
