@@ -7,9 +7,10 @@ class IsItReady extends React.Component {
   }
 
   render() {
-    let data = this.props.data;
-    let warnings = this.props.numWarnings;
-    let decision = data.passing === data.total && warnings === 0;
+    let props = this.props;
+    let data = props.data;
+    let warnings = props.testData.failingInDev.split(/^\*/gm).length;
+    let decision = data.percent === 100 && warnings === 0;
     let passing = data.percent === 100 ? 'All' : data.percent + '% of';
 
     let mainText = decision ?

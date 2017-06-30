@@ -5,20 +5,6 @@ import Graph from './Graph';
 import HeatMap from './HeatMap';
 import Footer from './Footer';
 
-function processGraphData(rawGraphData) {
-  let toInt = (str) => parseInt(str, 10);
-  return rawGraphData.trim().split('\n').map((string, index) => {
-    let [gitHash, dateStr, progress] = string.split(/[\t]/);
-    let dateParts = dateStr.split(/[ :-]/).map(toInt);
-    let [year, month, day, hours, minutes, seconds] = dateParts;
-    let date = new Date(year, month - 1, day, hours, minutes, seconds);
-    let timestamp = date.getTime();
-    let [passing, total] = progress.split(/\//).map(toInt);
-    let percent = parseFloat(((passing / total) * 100).toFixed(1), 10);
-    return {index, gitHash, date, dateStr, timestamp, total, passing, percent, x: date, y: percent};
-  });
-}
-
 const tooltipIcons = {
   passing: '\u2705',
   failingInDev: '\uD83D\uDEA7',
@@ -78,24 +64,24 @@ class App extends React.Component {
 
   render() {
     let props = this.props;
-    let graphData = processGraphData(props.rawGraphData);
-    let mostRecent = graphData[graphData.length - 1];
     let tooltipData = this.state.tooltipData;
     let tooltip = tooltipData ? <Tooltip {...tooltipData} /> : null;
-    let numWarnings = props.rawTestData.failingInDev.split(/^\*/gm).length;
 
     return (
       <div>
-        <ProgressBar data={mostRecent} />
-        <IsItReady data={mostRecent} numWarnings={numWarnings} />
+        <ProgressBar data={props.mostRecent} />
+        <IsItReady
+          data={props.mostRecent}
+          testData={props.testData}
+        />
         <Graph
           width={props.width}
-          graphData={graphData}
+          graphData={props.graphData}
           onMouseOut={this.handleMouseOut}
           onMouseOver={this.handleMouseOver}
         />
         <HeatMap
-          rawTestData={props.rawTestData}
+          testData={props.testData}
           onMouseOut={this.handleMouseOut}
           onMouseOver={this.handleMouseOver}
         />
