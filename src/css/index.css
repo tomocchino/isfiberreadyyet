@@ -12,6 +12,7 @@ a {
 
 a:hover {
   color: #000;
+  text-decoration: underline;
 }
 
 /* 'i' is for 'icon', like at FB :P */

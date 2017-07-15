@@ -26,7 +26,7 @@ class Footer extends React.Component {
           Principles
         </FooterLink>
         &middot;
-        <FooterLink href="facebook/react/issues/7925">
+        <FooterLink href="facebook/react/issues/8854">
           Umbrella
         </FooterLink>
         &middot;
