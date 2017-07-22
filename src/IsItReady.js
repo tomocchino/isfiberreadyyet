@@ -18,16 +18,15 @@ class IsItReady extends React.Component {
         target="_blank"
         rel="noopener noreferrer"
         href="https://github.com/facebook/react/issues/8854">
-        16.0 release
+        Try the Beta!
       </a>
     );
 
     return decision ? (
       <div className="IsItReady">
         <h1 className="IsItReadyText">Yes<i>{'\ud83c\udf89'}</i></h1>
-        <p>
-          And we're working hard to get the {releaseLink} ready.
-          <i>{'\u2705'}</i>
+        <p className="IsItReadyYes">
+          {releaseLink}
         </p>
       </div>
     ) : (

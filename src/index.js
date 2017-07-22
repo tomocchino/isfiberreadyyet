@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+import rawGraphData from './data/fiber-tests.js';
+import passing from './data/tests-passing.js';
+import failingInDev from './data/tests-passing-except-dev.js';
+import failing from './data/tests-failing.js';
+
 import './css/reset.css';
 import './css/index.css';
 
@@ -27,11 +32,7 @@ function processGraphData(rawGraphData) {
   });
 }
 
-Promise.all(
-  urls.map(
-    url => fetch(root + url).then(resp => resp.text())
-  )
-).then(([rawGraphData, passing, failingInDev, failing]) => {
+function renderEverything([rawGraphData, passing, failingInDev, failing]) {
   let root = document.getElementById('root');
   let testData = {passing, failingInDev, failing};
   let graphData = processGraphData(rawGraphData);
@@ -48,4 +49,13 @@ Promise.all(
   }
   window.addEventListener('resize', render, false);
   render();
-});
+}
+
+let useLocal = false;
+if (useLocal) {
+  renderEverything([rawGraphData, passing, failingInDev, failing]);
+} else {
+  Promise
+    .all(urls.map(url => fetch(root + url).then(resp => resp.text())))
+    .then(renderEverything);
+}
