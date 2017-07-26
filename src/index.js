@@ -51,7 +51,7 @@ function renderEverything([rawGraphData, passing, failingInDev, failing]) {
   render();
 }
 
-let useLocal = false;
+let useLocal = true;
 if (useLocal) {
   renderEverything([rawGraphData, passing, failingInDev, failing]);
 } else {
