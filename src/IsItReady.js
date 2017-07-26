@@ -17,7 +17,7 @@ class IsItReady extends React.Component {
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://github.com/facebook/react/issues/8854">
+        href="https://github.com/facebook/react/issues/10294">
         Try the Beta!
       </a>
     );
